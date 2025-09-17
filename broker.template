@@ -1,0 +1,4 @@
+username_admin_globalaccesslevel=${BROKER_ADMIN_USER}
+username_admin_password=${BROKER_ADMIN_PASSWORD}
+system_scaling_maxconnectioncount=${BROKER_MAX_CONNECTION_COUNT}
+webmanager_redirecthttp_enable=false

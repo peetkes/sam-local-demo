@@ -1,0 +1,56 @@
+services:
+  sam:
+    image: ${SAM_IMAGE}
+    container_name: ${SAM_NAME}
+    hostname: ${SAM_NAME}
+    env_file:
+      - ./sam.env
+    ports:
+      - 8000:8000
+    networks:
+      - sam_net
+    depends_on:
+      solace_broker:
+        condition: service_healthy
+
+  solace_broker:
+    image: ${BROKER_IMAGE}
+    container_name: ${BROKER_NAME}
+    hostname: ${BROKER_NAME}
+    ports:
+      # Standard ports
+      - "8080:8080"   # SEMP HTTP
+      - "8008:8008"   # WebSockets
+      - "55554:55555" # SMF
+      - "1883:1883"   # MQTT
+      - "9000:8000"   # REST
+      # TLS ports
+      - "1443:1443"   # SEMP HTTPS
+      - "55443:55443" # SMF TLS
+      - "8883:8883"   # MQTT TLS
+      - "9443:9443"   # REST TLS
+      - '5550:5550'     # HealthCheck
+    env_file:
+      - ./broker.env
+    networks:
+      - sam_net
+    volumes:
+      - storage-group-1:/var/lib/solace
+    shm_size: 1g
+    ulimits:
+      core: -1
+      nofile:
+        soft: 2448
+        hard: 1048576
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5550/health-check/guaranteed-active"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+networks:
+  sam_net: {}
+
+volumes:
+  storage-group-1:
