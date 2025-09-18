@@ -9,6 +9,8 @@ services:
       - 8000:8000
     networks:
       - sam_net
+    volumes:
+      - ./:/app
     depends_on:
       solace_broker:
         condition: service_healthy
