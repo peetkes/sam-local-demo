@@ -11,19 +11,13 @@ If you then do `docker load` it will put an image in your docker image registry 
 docker load -i solace-agent-mesh-enterprise-1.0.37.tar
 Loaded image: 868978040651.dkr.ecr.us-east-1.amazonaws.com/solace-agent-mesh-enterprise:1.0.37-c8890c7f31
 ```
-To rename that to something without the numbers you can execute this command:
-```shell
-docker load -i solace-agent-mesh-enterprise-1.0.37.tar | awk '{print $3}' | xargs -I {} docker tag {} solace/solace-agent-mesh-enterprise:1.0.37
-```
-This will give you a docker image with the name: `solace/solace-agent-mesh-enterprise:1.0.37` in line with the default image names for solace-pubsub.
-The script 'prepare-image.sh' will do just that for you
 If you have a newer version of the agent mesh you need to adjust the version.
 
 Now you can create a copy of the `sample.env` file with all the environment variables used for Solace Agent Mesh and Solace Broker, adjust the keys to your need. Name the copuy '.env', this will be picked up automatically by the `start.sh` script.
 ```shell
 PROJECT_NAME=sam-demo
 
-SAM_IMAGE=solace/solace-agent-mesh-enterprise:1.0.37
+SAM_IMAGE=868978040651.dkr.ecr.us-east-1.amazonaws.com/solace-agent-mesh-enterprise:1.0.37-c8890c7f31
 SAM_NAME=sam-ent-prd
 SAM_LLM_SERVICE_API_KEY=[your LiteLLM API key here]
 SAM_LLM_SERVICE_ENDPOINT="https://lite-llm.mymaas.net/"

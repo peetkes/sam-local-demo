@@ -1,6 +1,8 @@
 .venv/
 .idea/
+.sam/
 .env
 sam.env
 broker.env
 *.tar
+*.log
