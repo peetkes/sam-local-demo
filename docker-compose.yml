@@ -3,6 +3,7 @@ services:
     image: ${SAM_IMAGE}
     container_name: ${SAM_NAME}
     hostname: ${SAM_NAME}
+    platform: linux/amd64
     env_file:
       - ./sam.env
     ports:
